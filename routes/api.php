@@ -10,18 +10,24 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::get('/users', function (Request $request) {
-    $user = UserResource::collection(User::all());
-    return $user;
-});
+Route::middleware(['auth:sanctum', 'throttle:api'])->group(function () {
 
-Route::get('/hello', function(){
-    return ['message' => 'Your first API Response using Laravel'];
-});
-
-Route::prefix('v1')->group(function (){
-    Route::apiResource('posts', PostController::class);
-});
+        Route::get('/users', function (Request $request) {
+            $user = UserResource::collection(User::all());
+            return $user;
+        });
+        
+        Route::get('/hello', function(){
+            return ['message' => 'Your first API Response using Laravel'];
+        });
+        
+        Route::prefix('v1')->group(function (){
+            Route::apiResource('posts', PostController::class);
+        });
+    });
+    
+// Authentication related routes
+require __DIR__.'/auth.php';
 
 // Route::apiResource('posts', PostController::class);
 

@@ -27,9 +27,9 @@ class GeneratePromptRequest extends FormRequest
                 'required',
                 'file',
                 'image',
-                'mimes: jpeg, png, jpg, gif, svg',
-                'max: 10240', // 10MB
-                'min: 1',
+                'mimes:jpeg,png,jpg,gif,svg',
+                'max:10240', // 10MB
+                'min:1',
                 'dimensions: min_width=100, min_height=100, max_width=10000, max_height=10000',
             ]
         ];

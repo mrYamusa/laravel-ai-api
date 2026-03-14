@@ -27,7 +27,7 @@ class ImageGenerationController extends Controller
         $originalName = $image->getClientOriginalName();
         $sanitizedName = preg_replace('/[^A-Za-z0-9._-]/', '', pathinfo($originalName, PATHINFO_FILENAME));
         $extension = $image->getClientOriginalExtension();  
-        $safeFilename = $sanitizedName . '_' . Str::random(5) . $extension;
+        $safeFilename = $sanitizedName . '_' . Str::random(5) . '.' . $extension;
         $imagePath = $image->storeAs('uploads/images', $safeFilename, 'public');
 
         $generatedPrompt = $this->geminiService->generatePromptFromImage($image);

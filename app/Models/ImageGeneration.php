@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class ImageGeneration extends Model
 {
     //
+
+    protected $casts = [
+    'generated_prompt' => 'array',
+    ];
+
     protected $fillable = [
         'user_id',
         'generated_prompt',

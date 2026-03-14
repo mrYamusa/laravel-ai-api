@@ -7,6 +7,9 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Dedoc\Scramble\Scramble;
+use Dedoc\Scramble\Support\Generator\OpenApi;
+use Dedoc\Scramble\Support\Generator\SecurityScheme;
 
 
 class AppServiceProvider extends ServiceProvider
@@ -30,6 +33,13 @@ class AppServiceProvider extends ServiceProvider
 
         RateLimiter::for('api', function (Request $request) {
             return Limit::perMinute(30)->by($request->user()?->id ?: $request->ip());
+        });
+
+        Scramble::afterOpenApiGenerated(function (OpenApi $openApi) {
+            // Custom logic after OpenAPI is generated
+            $openApi->info->title = 'Gemini Image to JSON Prompt Generation API';
+            $openApi->info->description = 'REST API for image-to-json-prompt generation, auth-protected endpoints, and prompt history.';
+            $openApi->secure(SecurityScheme::http('bearer', 'BearerAuth'));
         });
     }
 }

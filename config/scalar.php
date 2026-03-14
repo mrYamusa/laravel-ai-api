@@ -78,10 +78,10 @@ return [
         'theme' =>
         // 'alternate',
         // 'bluePlanet',
-        // 'deepSpace',
+        'deepSpace',
         // 'default',
         // 'kepler',
-        'laravel',
+        // 'laravel',
         // 'mars',
         // 'moon',
         // 'purple',

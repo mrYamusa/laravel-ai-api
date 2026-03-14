@@ -53,4 +53,7 @@ class User extends Authenticatable
         return $this->hasMany(Post::class, 'author_id');
 
     }
+    public function images(): HasMany {
+        return $this->hasMany(ImageGeneration::class);
+    }
 }

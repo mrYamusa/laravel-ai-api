@@ -136,7 +136,10 @@ return [
          * @see https://unhead.unjs.io/usage/composables/use-seo-meta
          */
         'metaData' => [
-            'title' => config('app.name').' API Reference',
+            'title' => 'Gemini Image to JSON Prompt Generation API',
+            'description' => 'Upload an image and get a structured AI prompt (JSON) generated with Gemini.',
+            'keywords' => 'Laravel, API, Gemini, Image Prompt, AI, OpenAPI',
+            'author' => 'mr.yamusa',
         ],
 
         /**

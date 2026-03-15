@@ -29,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $fallbackAppUrl = 'https://laravel-gemini-app-219d31ff1cec.herokuapp.com';
+        $legacyHost = 'laravel-gemini-app.herokuapp.com';
+        $currentHost = 'laravel-gemini-app-219d31ff1cec.herokuapp.com';
         $configuredAppUrl = (string) config('app.url');
         $appUrl = $configuredAppUrl;
 
@@ -37,6 +39,8 @@ class AppServiceProvider extends ServiceProvider
         } elseif (str_starts_with($appUrl, 'http://laravel-gemini-app-219d31ff1cec.herokuapp.com')) {
             $appUrl = preg_replace('/^http:/', 'https:', $appUrl);
         }
+
+        $appUrl = str_replace('://'.$legacyHost, '://'.$currentHost, $appUrl);
 
         $appUrl = rtrim($appUrl, '/');
         URL::forceRootUrl($appUrl);

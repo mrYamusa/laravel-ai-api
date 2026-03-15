@@ -1,6 +1,8 @@
 <?php
 
 $fallbackAppUrl = 'https://laravel-gemini-app-219d31ff1cec.herokuapp.com';
+$legacyHost = 'laravel-gemini-app.herokuapp.com';
+$currentHost = 'laravel-gemini-app-219d31ff1cec.herokuapp.com';
 $rawAppUrl = env('APP_URL');
 
 if (! $rawAppUrl) {
@@ -11,7 +13,15 @@ if (! $rawAppUrl) {
     $appUrl = $rawAppUrl;
 }
 
+$appUrl = str_replace('://'.$legacyHost, '://'.$currentHost, $appUrl);
+
 $appUrl = rtrim($appUrl, '/');
+
+$scalarOpenApiUrl = env('SCALAR_OPENAPI_URL', $appUrl.'/docs/api.json');
+$scalarApiServer = env('SCALAR_API_SERVER', $appUrl.'/api');
+
+$scalarOpenApiUrl = str_replace('://'.$legacyHost, '://'.$currentHost, $scalarOpenApiUrl);
+$scalarApiServer = str_replace('://'.$legacyHost, '://'.$currentHost, $scalarApiServer);
 
 return [
 
@@ -62,7 +72,7 @@ return [
     |
     */
     // 'url' => 'https://cdn.jsdelivr.net/npm/@scalar/galaxy/dist/latest.json',
-    'url' => env('SCALAR_OPENAPI_URL', $appUrl.'/docs/api.json'),
+    'url' => $scalarOpenApiUrl,
 
     /*
     |--------------------------------------------------------------------------
@@ -196,7 +206,7 @@ return [
          */
         'servers' => [
             [
-                'url' => env('SCALAR_API_SERVER', $appUrl.'/api'),
+                'url' => $scalarApiServer,
                 'description' => 'API server',
             ],
         ],

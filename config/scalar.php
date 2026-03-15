@@ -1,27 +1,9 @@
 <?php
 
-$fallbackAppUrl = 'https://laravel-gemini-app-219d31ff1cec.herokuapp.com';
-$legacyHost = 'laravel-gemini-app.herokuapp.com';
-$currentHost = 'laravel-gemini-app-219d31ff1cec.herokuapp.com';
-$rawAppUrl = env('APP_URL');
-
-if (! $rawAppUrl) {
-    $appUrl = $fallbackAppUrl;
-} elseif (str_starts_with($rawAppUrl, 'http://laravel-gemini-app-219d31ff1cec.herokuapp.com')) {
-    $appUrl = preg_replace('/^http:/', 'https:', $rawAppUrl);
-} else {
-    $appUrl = $rawAppUrl;
-}
-
-$appUrl = str_replace('://'.$legacyHost, '://'.$currentHost, $appUrl);
-
-$appUrl = rtrim($appUrl, '/');
+$appUrl = rtrim((string) env('APP_URL', 'http://localhost:8000'), '/');
 
 $scalarOpenApiUrl = env('SCALAR_OPENAPI_URL', $appUrl.'/docs/api.json');
 $scalarApiServer = env('SCALAR_API_SERVER', $appUrl.'/api');
-
-$scalarOpenApiUrl = str_replace('://'.$legacyHost, '://'.$currentHost, $scalarOpenApiUrl);
-$scalarApiServer = str_replace('://'.$legacyHost, '://'.$currentHost, $scalarApiServer);
 
 return [
 

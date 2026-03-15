@@ -1,5 +1,13 @@
 <?php
 
+$corsAllowedOrigins = env('CORS_ALLOWED_ORIGINS', '*');
+
+if ($corsAllowedOrigins === '*') {
+    $corsAllowedOrigins = ['*'];
+} else {
+    $corsAllowedOrigins = array_filter(array_map('trim', explode(',', $corsAllowedOrigins)));
+}
+
 return [
 
     /*
@@ -15,11 +23,11 @@ return [
     |
     */
 
-    'paths' => ['*'],
+    'paths' => ['api/*', 'docs/api.json', 'scalar', 'scalar/*', 'sanctum/csrf-cookie'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('FRONTEND_URL', 'http://localhost:3000')],
+    'allowed_origins' => $corsAllowedOrigins,
 
     'allowed_origins_patterns' => [],
 
@@ -29,6 +37,6 @@ return [
 
     'max_age' => 0,
 
-    'supports_credentials' => true,
+    'supports_credentials' => (bool) env('CORS_SUPPORTS_CREDENTIALS', false),
 
 ];

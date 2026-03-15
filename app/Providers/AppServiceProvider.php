@@ -58,11 +58,6 @@ class AppServiceProvider extends ServiceProvider
             $openApi->info->title = 'Gemini Image to JSON Prompt Generation API';
             $openApi->info->description = 'REST API for image-to-json-prompt generation, auth-protected endpoints, and prompt history.';
             $openApi->secure(SecurityScheme::http('bearer', 'BearerAuth'));
-            $openApi->servers = [
-                (object) [
-                    'url' => env('SCRAMBLE_API_SERVER', config('app.url') ? rtrim((string) config('app.url'), '/').'/api' : 'https://laravel-gemini-app-219d31ff1cec.herokuapp.com/api'),
-                ],
-            ];
         });
     }
 }

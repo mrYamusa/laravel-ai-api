@@ -1,5 +1,18 @@
 <?php
 
+$fallbackAppUrl = 'https://laravel-gemini-app-219d31ff1cec.herokuapp.com';
+$rawAppUrl = env('APP_URL');
+
+if (! $rawAppUrl) {
+    $appUrl = $fallbackAppUrl;
+} elseif (str_starts_with($rawAppUrl, 'http://laravel-gemini-app-219d31ff1cec.herokuapp.com')) {
+    $appUrl = preg_replace('/^http:/', 'https:', $rawAppUrl);
+} else {
+    $appUrl = $rawAppUrl;
+}
+
+$appUrl = rtrim($appUrl, '/');
+
 return [
 
     /*
@@ -49,7 +62,7 @@ return [
     |
     */
     // 'url' => 'https://cdn.jsdelivr.net/npm/@scalar/galaxy/dist/latest.json',
-    'url' => '/docs/api.json',
+    'url' => env('SCALAR_OPENAPI_URL', $appUrl.'/docs/api.json'),
 
     /*
     |--------------------------------------------------------------------------
@@ -61,7 +74,7 @@ return [
     | package. You can change this if you want to use a different CDN.
     |
     */
-    'cdn' => 'https://cdn.jsdelivr.net/npm/@scalar/api-reference',
+    'cdn' => env('SCALAR_CDN_URL', 'https://cdn.jsdelivr.net/npm/@scalar/api-reference@1.48.7'),
 
     /*
     |--------------------------------------------------------------------------
@@ -176,17 +189,17 @@ return [
          * On the client we can grab the window.location.origin but on the server we need
          * to use this prop.
          */
-        // 'baseServerURL' => '',
+        'baseServerURL' => $appUrl,
 
         /**
          * List of servers to override the openapi spec servers
          */
-        // 'servers' => [
-        //     [
-        //         'url' => 'https://api.scalar.com',
-        //         'description' => 'Production server',
-        //     ],
-        // ],
+        'servers' => [
+            [
+                'url' => env('SCALAR_API_SERVER', $appUrl.'/api'),
+                'description' => 'API server',
+            ],
+        ],
 
         /**
          * We’re using Inter and JetBrains Mono as the default fonts. If you want to use your own fonts, set this to false.
